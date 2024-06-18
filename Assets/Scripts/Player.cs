@@ -11,7 +11,7 @@ public class Player : MonoBehaviour {
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] Transform[] firePoints;
     [SerializeField] GameObject projectile;
-    float fireTime = 0.4f;
+    [SerializeField] float fireTime = 0.4f;
     float fireTimer = 0;
     bool multiShot = false;
     [SerializeField] int points = 0;
@@ -19,10 +19,15 @@ public class Player : MonoBehaviour {
     [SerializeField] int lives = 3;
     [SerializeField] TMP_Text livesDisplay;
     Vector3 spawnPoint;
+    [SerializeField] GameObject gameOverScreen;
+    [SerializeField] AudioClip blaster;
+    AudioSource sound;
 
     private void Start() {
         livesDisplay.text = lives.ToString();
         spawnPoint = transform.position;
+        Time.timeScale = 1.0f;
+        sound = GetComponent<AudioSource>();
     }
 
     private void Update() {
@@ -45,11 +50,13 @@ public class Player : MonoBehaviour {
 
     void Fire() {
         Instantiate(projectile, firePoints[0].position, projectile.transform.rotation);
+        sound.PlayOneShot(blaster);
     }
 
     void FireMultiShot() {
         Instantiate(projectile, firePoints[1].position, projectile.transform.rotation);
         Instantiate(projectile, firePoints[2].position, projectile.transform.rotation);
+        sound.PlayOneShot(blaster);
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -62,7 +69,7 @@ public class Player : MonoBehaviour {
                 livesDisplay.text = lives.ToString();
             }
             else if (lives <= 0) {
-                Debug.Log("GAME OVER");
+                gameOverScreen.SetActive(true);
                 Time.timeScale = 0f;
             }
         }

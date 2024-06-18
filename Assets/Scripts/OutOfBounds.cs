@@ -12,7 +12,7 @@ public class OutOfBounds : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if (transform.position.y > positiveOffset) {
+        if (transform.position.z > positiveOffset) {
             Destroy(gameObject);
         }
     }
