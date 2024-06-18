@@ -23,6 +23,7 @@ public class Player : MonoBehaviour {
     [SerializeField] AudioClip blaster;
     AudioSource sound;
     bool canFire = true;
+    [SerializeField] Slider heatBar;
 
     [SerializeField] int heat;
     [SerializeField] TMP_Text heatDisplay;
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour {
         spawnPoint = transform.position;
         Time.timeScale = 1.0f;
         sound = GetComponent<AudioSource>();
+        heatBar.value = 0;
     }
 
     private void Update() {
@@ -60,6 +62,7 @@ public class Player : MonoBehaviour {
                 heatTimer = heatTime;
             }
             heatDisplay.text = heat.ToString();
+            heatBar.value = heat;
         }
 
         if (!canFire) {
