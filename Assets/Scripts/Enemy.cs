@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
@@ -9,5 +10,7 @@ public class Enemy : MonoBehaviour {
     private void Update() {
         transform.Translate(Vector3.back * speed * Time.deltaTime);
     }
+
+    
 
 }

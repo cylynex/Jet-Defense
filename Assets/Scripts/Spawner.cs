@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour {
 
     void SpawnEnemiesRandom() {
         int enemyIndex = Random.Range(0, enemies.Length);
-        Vector3 spawnLocation = new Vector3(Random.Range(spawnMin, spawnMax), 4.5f, 100);
+        Vector3 spawnLocation = new Vector3(Random.Range(spawnMin, spawnMax), 8.75f, 100);
         Instantiate(enemies[enemyIndex], spawnLocation, transform.rotation);
     }
 
