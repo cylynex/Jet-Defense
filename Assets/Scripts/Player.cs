@@ -6,10 +6,11 @@ public class Player : MonoBehaviour {
 
     [SerializeField] float horizontalInput;
     [SerializeField] float moveSpeed = 5f;
-    [SerializeField] Transform firePoint1;
+    [SerializeField] Transform[] firePoints;
     [SerializeField] GameObject projectile;
     float fireTime = 0.4f;
     float fireTimer = 0;
+    bool multiShot = false;
 
     private void Update() {
         horizontalInput = Input.GetAxis("Horizontal");
@@ -17,13 +18,25 @@ public class Player : MonoBehaviour {
 
         if (fireTimer <= 0) {
             if (Input.GetAxis("Fire1") > 0) {
-                Instantiate(projectile, firePoint1.position, projectile.transform.rotation);
+                if (multiShot) {
+                    FireMultiShot();
+                } else {
+                    Fire();
+                }
                 fireTimer = fireTime;
             }
         } else {
             fireTimer -= Time.deltaTime;
         }
+    }
 
+    void Fire() {
+        Instantiate(projectile, firePoints[0].position, projectile.transform.rotation);
+    }
+
+    void FireMultiShot() {
+        Instantiate(projectile, firePoints[1].position, projectile.transform.rotation);
+        Instantiate(projectile, firePoints[2].position, projectile.transform.rotation);
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -32,6 +45,10 @@ public class Player : MonoBehaviour {
             Debug.Log("GAME OVER");
             Time.timeScale = 0f;
         }
+    }
+
+    public void UpgradeMultiShot() {
+        multiShot = true;
     }
 
 }

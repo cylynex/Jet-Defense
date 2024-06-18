@@ -5,7 +5,10 @@ using UnityEngine;
 public class UpgradeMultishot : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
-        print("hit upgrade");
+        if (other.gameObject.CompareTag("Player")) {
+            print("hit upgrade MS");
+            other.gameObject.GetComponent<Player>().UpgradeMultiShot();
+        }
     }
 
 }
