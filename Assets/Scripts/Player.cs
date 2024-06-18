@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using TMPro;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -11,6 +14,16 @@ public class Player : MonoBehaviour {
     float fireTime = 0.4f;
     float fireTimer = 0;
     bool multiShot = false;
+    [SerializeField] int points = 0;
+    [SerializeField] TMP_Text pointsDisplay;
+    [SerializeField] int lives = 3;
+    [SerializeField] TMP_Text livesDisplay;
+    Vector3 spawnPoint;
+
+    private void Start() {
+        livesDisplay.text = lives.ToString();
+        spawnPoint = transform.position;
+    }
 
     private void Update() {
         horizontalInput = Input.GetAxis("Horizontal");
@@ -42,13 +55,26 @@ public class Player : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         print("hit: " + other.gameObject.name);
         if (other.gameObject.CompareTag("Enemy")) {
-            Debug.Log("GAME OVER");
-            Time.timeScale = 0f;
+
+            if (lives > 0) {
+                transform.position = spawnPoint;
+                lives--;
+                livesDisplay.text = lives.ToString();
+            }
+            else if (lives <= 0) {
+                Debug.Log("GAME OVER");
+                Time.timeScale = 0f;
+            }
         }
     }
 
     public void UpgradeMultiShot() {
         multiShot = true;
+    }
+
+    public void AddScore(int amount) {
+        points += amount;
+        pointsDisplay.text = points.ToString();
     }
 
 }

@@ -5,17 +5,18 @@ using UnityEngine;
 public class MoveBackground : MonoBehaviour {
 
     Vector3 startingPosition;
-    float speed = 25;
-    float backgroundCutoff;
+    [SerializeField] float repeatWidth;
+    [SerializeField] float speed = 10f;
 
     private void Start() {
         startingPosition = transform.position;
-        backgroundCutoff = GetComponent<BoxCollider>().size.y / 2;
+        repeatWidth = GetComponent<BoxCollider>().size.z / 2;
+        repeatWidth = 80;
     }
 
     private void Update() {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
-        if (transform.position.y < startingPosition.y - backgroundCutoff) {
+        transform.Translate(Vector3.back * speed * Time.deltaTime, Space.World);
+        if (transform.position.z < startingPosition.z - repeatWidth) {
             transform.position = startingPosition;
         }
     }

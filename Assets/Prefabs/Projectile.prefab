@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7596823252943875620}
   - component: {fileID: 6273682967665354471}
   - component: {fileID: 8230037502552123902}
+  - component: {fileID: 8198552535770312971}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Projectile
@@ -30,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 6815482791142110556}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.1311417, y: 9.2, z: 8.3}
-  m_LocalScale: {x: 0.17681837, y: 0.09998721, z: 2.861352}
+  m_LocalPosition: {x: 6.9493, y: 9.2, z: 8.3}
+  m_LocalScale: {x: 0.77039003, y: 0.3651633, z: 2.861352}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -105,8 +106,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.1890236, y: 9.314152, z: 0.9999999}
+  m_Center: {x: 0.0011221278, y: 0.85658914, z: 0}
 --- !u!114 &6273682967665354471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9495b912766ad44fba494ef7c45f21a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 150
+  moveSpeed: 250
 --- !u!54 &8230037502552123902
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -147,3 +148,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8198552535770312971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815482791142110556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23376b92b34065847ab757576532fb0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

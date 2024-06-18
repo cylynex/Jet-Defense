@@ -12,6 +12,8 @@ public class Projectile : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Enemy")) {
+            int pointsEarned = other.GetComponent<Enemy>().GetPoints;
+            FindObjectOfType<Player>().AddScore(pointsEarned);
             Destroy(other.gameObject);
             Destroy(gameObject);
         }
