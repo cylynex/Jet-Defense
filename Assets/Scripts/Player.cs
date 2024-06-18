@@ -22,6 +22,12 @@ public class Player : MonoBehaviour {
     [SerializeField] GameObject gameOverScreen;
     [SerializeField] AudioClip blaster;
     AudioSource sound;
+    bool canFire = true;
+
+    [SerializeField] int heat;
+    [SerializeField] TMP_Text heatDisplay;
+    [SerializeField] float heatTime = 0.5f;
+    [SerializeField] float heatTimer = 0;
 
     private void Start() {
         livesDisplay.text = lives.ToString();
@@ -34,7 +40,7 @@ public class Player : MonoBehaviour {
         horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.right * moveSpeed * horizontalInput * Time.deltaTime);
 
-        if (fireTimer <= 0) {
+        if ((fireTimer <= 0) && (canFire)) {
             if (Input.GetAxis("Fire1") > 0) {
                 if (multiShot) {
                     FireMultiShot();
@@ -46,17 +52,35 @@ public class Player : MonoBehaviour {
         } else {
             fireTimer -= Time.deltaTime;
         }
+
+        if (heat > 0) {
+            heatTimer -= Time.deltaTime;
+            if (heatTimer <= 0) {
+                heat--;
+                heatTimer = heatTime;
+            }
+            heatDisplay.text = heat.ToString();
+        }
+
+        if (!canFire) {
+            if (heat < 75) {
+                canFire = true;
+            }
+        }
+
     }
 
     void Fire() {
         Instantiate(projectile, firePoints[0].position, projectile.transform.rotation);
         sound.PlayOneShot(blaster);
+        UpdateHeat(1);        
     }
 
     void FireMultiShot() {
         Instantiate(projectile, firePoints[1].position, projectile.transform.rotation);
         Instantiate(projectile, firePoints[2].position, projectile.transform.rotation);
         sound.PlayOneShot(blaster);
+        UpdateHeat(2);
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -82,6 +106,18 @@ public class Player : MonoBehaviour {
     public void AddScore(int amount) {
         points += amount;
         pointsDisplay.text = points.ToString();
+    }
+
+    void UpdateHeat(int amount) {
+        heat += amount;
+        heatDisplay.text = heat.ToString();
+        if (heat > 75) {
+            DisableFiring();
+        }
+    }
+
+    void DisableFiring() {
+        canFire = false;
     }
 
 }
