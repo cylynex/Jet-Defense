@@ -16,7 +16,6 @@ public class Projectile : MonoBehaviour {
             int pointsEarned = other.GetComponent<Enemy>().GetPoints;
             FindObjectOfType<Player>().AddScore(pointsEarned);
             GameObject explosion = Instantiate(explode, transform.position, transform.rotation);
-            //explosion.GetComponent<ParticleSystem>().Play();
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

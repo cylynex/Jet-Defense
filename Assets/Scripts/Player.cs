@@ -7,28 +7,40 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
-    [SerializeField] float horizontalInput;
-    [SerializeField] float moveSpeed = 5f;
+    float horizontalInput;
     [SerializeField] Transform[] firePoints;
+    [SerializeField] float moveSpeed = 5f;
+
+    Vector3 spawnPoint;
+
+    [Header("Firing")]
     [SerializeField] GameObject projectile;
     [SerializeField] float fireTime = 0.4f;
     float fireTimer = 0;
-    bool multiShot = false;
-    [SerializeField] int points = 0;
-    [SerializeField] TMP_Text pointsDisplay;
-    [SerializeField] int lives = 3;
-    [SerializeField] TMP_Text livesDisplay;
-    Vector3 spawnPoint;
-    [SerializeField] GameObject gameOverScreen;
-    [SerializeField] AudioClip blaster;
-    AudioSource sound;
     bool canFire = true;
-    [SerializeField] Slider heatBar;
 
-    [SerializeField] int heat;
+    // Upgrades
+    bool multiShot = false;
+
+    [Header("UI")]
+    [SerializeField] TMP_Text livesDisplay;
+    [SerializeField] TMP_Text pointsDisplay;
+    [SerializeField] GameObject gameOverScreen;
+    [SerializeField] Slider heatBar;
     [SerializeField] TMP_Text heatDisplay;
-    [SerializeField] float heatTime = 0.5f;
-    [SerializeField] float heatTimer = 0;
+
+    // Gamekeeping
+    int points = 0;
+    int lives = 3;
+
+    // Sound
+    AudioSource sound;
+    [SerializeField] AudioClip blaster;
+
+    // Heat
+    int heat;
+    float heatTime = 0.5f;
+    float heatTimer = 0;
 
     private void Start() {
         livesDisplay.text = lives.ToString();
@@ -42,19 +54,36 @@ public class Player : MonoBehaviour {
         horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.right * moveSpeed * horizontalInput * Time.deltaTime);
 
+        FireControl();
+
+        ManageHeat();
+
+    }
+
+    void FireControl() {
         if ((fireTimer <= 0) && (canFire)) {
             if (Input.GetAxis("Fire1") > 0) {
                 if (multiShot) {
                     FireMultiShot();
-                } else {
+                }
+                else {
                     Fire();
                 }
                 fireTimer = fireTime;
             }
-        } else {
+        }
+        else {
             fireTimer -= Time.deltaTime;
         }
 
+        if (!canFire) {
+            if (heat < 75) {
+                canFire = true;
+            }
+        }
+    }
+
+    void ManageHeat() {
         if (heat > 0) {
             heatTimer -= Time.deltaTime;
             if (heatTimer <= 0) {
@@ -64,13 +93,6 @@ public class Player : MonoBehaviour {
             heatDisplay.text = heat.ToString();
             heatBar.value = heat;
         }
-
-        if (!canFire) {
-            if (heat < 75) {
-                canFire = true;
-            }
-        }
-
     }
 
     void Fire() {
@@ -87,7 +109,6 @@ public class Player : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        print("hit: " + other.gameObject.name);
         if (other.gameObject.CompareTag("Enemy")) {
 
             if (lives > 0) {
